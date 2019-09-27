@@ -6,10 +6,6 @@ class Vector3 {
     this.z = z;
   }
 
-  clone() {
-    return new Vector3(this.x, this.y, this.z);
-  }
-
   add(v) {
     return new Vector3(this.x + v.x, this.y + v.y, this.z + v.z);
   }
@@ -32,6 +28,14 @@ class Vector3 {
 
   dot(v = this) {
     return this.x * v.x + this.y * v.y + this.z * v.z;
+  }
+
+  clone() {
+    return new Vector3(this.x, this.y, this.z);
+  }
+
+  neg() {
+    return new Vector3(this.x * -1, this.y * -1, this.z * -1);
   }
 
   length() {

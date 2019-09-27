@@ -10,6 +10,15 @@ class Color {
     return new Color(this.r, this.g, this.b, this.a);
   }
 
+  add(v) {
+    return new Color(
+      this.r + (v.x || v.r),
+      this.g + (v.y || v.g),
+      this.b + (v.z || v.b),
+      this.a + (v.w || v.a)
+    );
+  }
+
   scale(f, multAlpha = false) {
     let c = new Color(this.r * f, this.g * f, this.b * f, this.a)
 

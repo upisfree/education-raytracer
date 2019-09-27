@@ -100,7 +100,10 @@ function castRay(origin, direction) {
     return CONFIG.BACKGROUND_COLOR;
   }
 
+  let material = intersection.sphere.material;
+
   let diffuseLightIntensity = 0;
+  let specularLightIntensity = 0;
 
   for (let i = 0; i < lights.length; i++) {
     let l = lights[i];
@@ -108,13 +111,27 @@ function castRay(origin, direction) {
     let lightDirection = l.position.sub(intersection.hitPoint).normalize();
     
     diffuseLightIntensity += l.intensity * Math.max(0, lightDirection.dot(intersection.normal));
+    specularLightIntensity += 
+      Math.pow(
+        Math.max(
+          0,
+          reflect(lightDirection.neg(), intersection.normal).neg().dot(direction)
+        ),
+        material.specular
+      ) * l.intensity;
   }
 
-  let color = intersection.sphere.material.diffuse;
+  let diffuse = material.diffuse.scale(diffuseLightIntensity).scale(material.albedo.x);
+  let specular = (new Color(255, 255, 255)).scale(specularLightIntensity).scale(material.albedo.y);
 
-  return color.scale(diffuseLightIntensity);
+  return diffuse.add(specular);
 }
 
 function reflect(i, n) {
-  return i.sub(n.scale(2).mult((i.mult(n))));
+  return i.sub(
+    n.scale(2)
+     .mult(
+       i.mult(n)
+     )
+  );
 }
