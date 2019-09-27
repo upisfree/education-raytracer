@@ -2,17 +2,17 @@ import Vector3 from './vector3.js';
 import Ray from './ray.js';
 
 class Sphere {
-  constructor(position, radius, color) {
+  constructor(position, radius, material) {
     this.position = position;
     this.radius = radius;
-    this.color = color;
+    this.material = material;
   }
 
   rayIntersection(origin, direction, distance) {
     let ray = new Ray();
 
-    let l = this.position.clone().sub(origin);
-    let tca = l.clone().dot(direction);
+    let l = this.position.sub(origin);
+    let tca = l.dot(direction);
 
     let d2 = l.dot(l) - tca * tca;
     let radius2 = this.radius * this.radius;

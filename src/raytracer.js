@@ -1,6 +1,7 @@
 import CONFIG from './config.js';
 import Vector3 from './vector3.js';
 import { default as Color, COLORS } from './color.js';
+import { default as Material, MATERIALS } from './material.js';
 import gl from './gl.js';
 import Sphere from './sphere.js';
 import Light from './light.js';
@@ -11,6 +12,14 @@ let lights = [
   new Light(
     new Vector3(-20, 20, 20),
     1.5
+  ),
+  new Light(
+    new Vector3(30, 50, -25),
+    1.8
+  ),
+  new Light(
+    new Vector3(30, 20, 30),
+    1.7
   )
 ];
 
@@ -18,22 +27,22 @@ let spheres = [
   new Sphere(
     new Vector3(-3, 0, -16),
     2,
-    COLORS.IVORY
+    MATERIALS.IVORY
   ),
   new Sphere(
     new Vector3(-1, -1.5, -12),
     2,
-    COLORS.RED_RUBBER
+    MATERIALS.RED_RUBBER
   ),
   new Sphere(
     new Vector3(1.5, -0.5, -18),
     3,
-    COLORS.RED_RUBBER
+    MATERIALS.RED_RUBBER
   ),
   new Sphere(
     new Vector3(-7, 5, -18),
     4,
-    COLORS.IVORY
+    MATERIALS.IVORY
   ),
 ];
 
@@ -69,8 +78,8 @@ function intersectScene(origin, direction) {
 
     if (ray.intersects && ray.distance < distance) {
       distance = ray.distance;
-      hitPoint = origin.clone().add(direction.clone().scale(distance));
-      normal = hitPoint.clone().sub(s.position).normalize();
+      hitPoint = origin.add(direction.scale(distance));
+      normal = hitPoint.sub(s.position).normalize();
       sphere = s;
     }
   }
@@ -96,12 +105,16 @@ function castRay(origin, direction) {
   for (let i = 0; i < lights.length; i++) {
     let l = lights[i];
 
-    let lightDirection = l.position.clone().sub(intersection.hitPoint).normalize();
+    let lightDirection = l.position.sub(intersection.hitPoint).normalize();
     
     diffuseLightIntensity += l.intensity * Math.max(0, lightDirection.dot(intersection.normal));
   }
 
-  let color = intersection.sphere.color;
+  let color = intersection.sphere.material.diffuse;
 
-  return color.clone().scale(diffuseLightIntensity);
+  return color.scale(diffuseLightIntensity);
+}
+
+function reflect(i, n) {
+  return i.sub(n.scale(2).mult((i.mult(n))));
 }

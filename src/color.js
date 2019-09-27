@@ -11,15 +11,13 @@ class Color {
   }
 
   scale(f, multAlpha = false) {
-    this.r *= f;
-    this.g *= f;
-    this.b *= f;
+    let c = new Color(this.r * f, this.g * f, this.b * f, this.a)
 
     if (multAlpha) {
-      this.a *= f;      
+      c.a *= f;      
     }
 
-    return this;
+    return c;
   }
 }
 

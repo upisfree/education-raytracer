@@ -1,3 +1,4 @@
+// immutable Vector3
 class Vector3 {
   constructor(x = 0, y = 0, z = 0) {
     this.x = x;
@@ -10,43 +11,23 @@ class Vector3 {
   }
 
   add(v) {
-    this.x += v.x;
-    this.y += v.y;
-    this.z += v.z;
-
-    return this;
+    return new Vector3(this.x + v.x, this.y + v.y, this.z + v.z);
   }
 
   sub(v) {
-    this.x -= v.x;
-    this.y -= v.y;
-    this.z -= v.z;
-
-    return this;
+    return new Vector3(this.x - v.x, this.y - v.y, this.z - v.z);
   }
 
   mult(v) {
-    this.x *= v.x;
-    this.y *= v.y;
-    this.z *= v.z;
-
-    return this;
+    return new Vector3(this.x * v.x, this.y * v.y, this.z * v.z);
   }
 
   div(v) {
-    this.x /= v.x;
-    this.y /= v.y;
-    this.z /= v.z;
-
-    return this;
+    return new Vector3(this.x / v.x, this.y / v.y, this.z / v.z);
   }
 
   scale(f) {
-    this.x *= f;
-    this.y *= f;
-    this.z *= f;
-
-    return this;
+    return new Vector3(this.x * f, this.y * f, this.z * f);
   }
 
   dot(v = this) {
