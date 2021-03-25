@@ -40,7 +40,7 @@ let spheres = [
     MATERIALS.RED_RUBBER
   ),
   new Sphere(
-    new Vector3(-7, 5, -18),
+    new Vector3(7, 5, -18),
     4,
     MATERIALS.IVORY
   ),
